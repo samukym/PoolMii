@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "754453207185",
+    "firebase_url": "https://project-6922434479885935413.firebaseio.com",
+    "project_id": "project-6922434479885935413",
+    "storage_bucket": "project-6922434479885935413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754453207185:android:0556a71814cf6e87",
+        "android_client_info": {
+          "package_name": "com.example.samu.poolmii"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754453207185-4mc6ir76jjsr3elfun8bfitaqbm84i24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYFW5OEL1ao2jAJ1rr5RK0IEI0qGvFnTs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
