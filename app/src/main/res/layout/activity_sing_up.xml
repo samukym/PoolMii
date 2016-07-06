@@ -29,30 +29,30 @@
         android:hint="Contraseña" />
 
     <EditText
-        android:id="@+id/dni"
+        android:id="@+id/etDni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/etPassword"
         android:hint="Dni"/>
     <EditText
-        android:id="@+id/nombre"
+        android:id="@+id/etNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dni"
+        android:layout_below="@id/etDni"
         android:hint="Nombre"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fecha_nacimiento"
-        android:layout_below="@id/nombre"
+        android:id="@+id/etFecha_nacimiento"
+        android:layout_below="@id/etNombre"
         android:inputType="date"
         android:hint="fecha de nacimiento"/>
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnSingup"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fecha_nacimiento"
+        android:layout_below="@id/etFecha_nacimiento"
         android:layout_alignParentLeft="true"
         android:text="SIGN UP"/>
 

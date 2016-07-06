@@ -27,6 +27,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mAuth = FirebaseAuth.getInstance();
+
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         findViewById(R.id.tvRegistro).setOnClickListener(new View.OnClickListener() {
@@ -42,7 +44,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
+
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
