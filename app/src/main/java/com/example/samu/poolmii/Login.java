@@ -16,11 +16,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;;
     private EditText etEmail;
     private EditText etPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
-        findViewById(R.id.btnLogin).setOnClickListener(this);
+        findViewById(R.id.tvRegistro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Sing_up.class));
+            }
+        });
+        findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logIn(etEmail.getText().toString(), etPassword.getText().toString());
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -62,7 +74,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-        private boolean validateForm() {
+    private boolean validateForm() {
         boolean valid = true;
 
         String email = etEmail.getText().toString();
@@ -98,10 +110,5 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         }
                     }
                 });
-    }
-
-    @Override
-    public void onClick(View v) {
-        logIn(etEmail.getText().toString(), etPassword.getText().toString());
     }
 }

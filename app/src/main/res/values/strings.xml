@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PoolMii</string>
+    <string name="string_registro">No tienes cuenta? Pulsa <u>aqui</u></string>
 </resources>

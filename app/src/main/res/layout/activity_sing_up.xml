@@ -7,15 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.samu.poolmii.Login">
+    tools:context="com.example.samu.poolmii.Sing_up">
 
     <EditText
+        android:paddingTop="50dp"
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:inputType="textEmailAddress"
         android:hint="codigo@aloe.ulima.edu.pe" />
     <EditText
         android:id="@+id/etPassword"
@@ -24,23 +25,35 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/etEmail"
         android:layout_alignParentLeft="true"
+        android:inputType="textPassword"
         android:hint="Contraseña" />
+
+    <EditText
+        android:id="@+id/dni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etPassword"
+        android:hint="Dni"/>
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dni"
+        android:hint="Nombre"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fecha_nacimiento"
+        android:layout_below="@id/nombre"
+        android:inputType="date"
+        android:hint="fecha de nacimiento"/>
     <Button
         android:id="@+id/btnLogin"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etPassword"
+        android:layout_below="@id/fecha_nacimiento"
         android:layout_alignParentLeft="true"
-        android:text="LOGIN"/>
+        android:text="SIGN UP"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvRegistro"
-        android:layout_below="@id/btnLogin"
-        android:text="@string/string_registro"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:layout_marginTop="10dp"/>
 </RelativeLayout>
