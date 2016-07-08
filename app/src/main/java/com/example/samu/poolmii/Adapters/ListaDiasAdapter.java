@@ -1,14 +1,16 @@
 package com.example.samu.poolmii.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
+import com.example.samu.poolmii.DetallePreferencias;
 import com.example.samu.poolmii.R;
 
 import java.util.List;
@@ -50,16 +52,9 @@ public class ListaDiasAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_listadodias, null);
             viewHolder = new ViewHolder();
             viewHolder.nombreDia = (TextView) convertView.findViewById(R.id.lista_dia);
-            viewHolder.toggleButton = (ToggleButton) convertView.findViewById(R.id.lista_tooglebtn);
+            viewHolder.toggleButton = (Switch) convertView.findViewById(R.id.lista_tooglebtn);
 
-            viewHolder.toggleButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(viewHolder.toggleButton.isChecked()){
-                        Toast.makeText(v.getContext(), "ja!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+
 
             convertView.setTag(viewHolder);
         }else{
@@ -69,6 +64,21 @@ public class ListaDiasAdapter extends BaseAdapter {
         viewHolder.nombreDia.setText(mListaDias.get(position));
         viewHolder.toggleButton.setChecked(true);
 
+        viewHolder.toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(viewHolder.toggleButton.isChecked()){
+                    Toast.makeText(v.getContext(), "ja!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        viewHolder.nombreDia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.getContext().startActivity(new Intent(v.getContext(), DetallePreferencias.class));
+            }
+        });
+
 
 
         return convertView;
@@ -76,6 +86,6 @@ public class ListaDiasAdapter extends BaseAdapter {
 
     private static class ViewHolder{
         TextView nombreDia;
-        ToggleButton toggleButton;
+        Switch toggleButton;
     }
 }

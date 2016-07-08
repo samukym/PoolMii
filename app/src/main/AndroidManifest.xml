@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Sing_up" />
+        <activity android:name=".DetallePreferencias"></activity>
     </application>
 
 </manifest>

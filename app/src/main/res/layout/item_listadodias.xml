@@ -3,11 +3,12 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:paddingTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lista_dia"
         android:text="Dia"/>
-    <ToggleButton
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lista_tooglebtn"
