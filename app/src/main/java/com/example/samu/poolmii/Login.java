@@ -70,7 +70,6 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        mAuth.signOut();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
