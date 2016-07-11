@@ -17,11 +17,11 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreferenciasViajeFragment extends Fragment {
+public class BusquedasFragment extends Fragment {
     private List<String> mLista;
     private ListView lvDias;
 
-    public PreferenciasViajeFragment() {
+    public BusquedasFragment() {
         mLista = new ArrayList<>();
         rellenarDias(mLista);
     }
@@ -30,16 +30,17 @@ public class PreferenciasViajeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_preferencias_viaje, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_busquedas, container, false);
 
         lvDias = (ListView) rootView.findViewById(R.id.listViewDias);
         ListaDiasAdapter listaDiasAdapter = new ListaDiasAdapter(mLista, getActivity());
         lvDias.setAdapter(listaDiasAdapter);
 
+
         return rootView;
     }
 
-    private void rellenarDias(List<String> lista){
+    private void rellenarDias(List<String> lista) {
         lista.add("Lunes");
         lista.add("Martes");
         lista.add("Miercoles");

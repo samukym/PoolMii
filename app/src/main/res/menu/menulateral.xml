@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:title="Preferencias de viaje"
-            android:id="@+id/menu_preferencias_viaje"/>
+            android:title="@string/busquedas"
+            android:id="@+id/menu_busquedas"/>
         <item
             android:title="Mis rutas"
             android:id="@+id/menu_mis_rutas"/>

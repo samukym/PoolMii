@@ -9,12 +9,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.samu.poolmii.Beans.Trayecto;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BusquedaTrayectoFragment.OnBusquedaListener {
 
     private DrawerLayout mDrawerLayout;
 
@@ -60,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fm.beginTransaction();
 
         switch (item){
-            case R.id.menu_preferencias_viaje:
-                transaction.replace(R.id.fragment_container, new PreferenciasViajeFragment());
+            case R.id.menu_busquedas:
+                transaction.replace(R.id.fragment_container, new BusquedasFragment());
                 break;
             case R.id.menu_perfil:
                 transaction.replace(R.id.fragment_container, new PerfilFragment());
@@ -80,4 +82,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    public void onBusquedaInteraction(Trayecto trayecto) {
+        Log.i("eeehasljdfdjf:" ,trayecto.getAvenidas().get(0));
+
+    }
 }

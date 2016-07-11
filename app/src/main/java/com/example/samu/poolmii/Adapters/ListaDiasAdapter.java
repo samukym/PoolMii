@@ -1,7 +1,9 @@
 package com.example.samu.poolmii.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.samu.poolmii.DetallePreferencias;
+import com.example.samu.poolmii.BusquedaTrayectoFragment;
 import com.example.samu.poolmii.R;
 
 import java.util.List;
@@ -75,7 +77,10 @@ public class ListaDiasAdapter extends BaseAdapter {
         viewHolder.nombreDia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.getContext().startActivity(new Intent(v.getContext(), DetallePreferencias.class));
+                FragmentManager fm = ((AppCompatActivity)mContext).getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.fragment_container, new BusquedaTrayectoFragment());
+                transaction.addToBackStack(null).commit();
             }
         });
 
