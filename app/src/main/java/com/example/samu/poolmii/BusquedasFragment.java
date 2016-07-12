@@ -21,6 +21,7 @@ public class BusquedasFragment extends Fragment {
     private List<String> mLista;
     private ListView lvDias;
 
+
     public BusquedasFragment() {
         mLista = new ArrayList<>();
         rellenarDias(mLista);
@@ -37,16 +38,18 @@ public class BusquedasFragment extends Fragment {
         lvDias.setAdapter(listaDiasAdapter);
 
 
+
+
         return rootView;
     }
 
     private void rellenarDias(List<String> lista) {
-        lista.add("Lunes");
-        lista.add("Martes");
-        lista.add("Miercoles");
-        lista.add("Jueves");
-        lista.add("Viernes");
-        lista.add("Sabado");
+        lista.add("lunes");
+        lista.add("martes");
+        lista.add("miercoles");
+        lista.add("jueves");
+        lista.add("viernes");
+        lista.add("sabado");
     }
 
 }

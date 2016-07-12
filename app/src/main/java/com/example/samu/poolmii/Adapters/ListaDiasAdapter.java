@@ -1,6 +1,7 @@
 package com.example.samu.poolmii.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -48,15 +49,13 @@ public class ListaDiasAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
         if(convertView == null){
             convertView = mInflater.inflate(R.layout.item_listadodias, null);
             viewHolder = new ViewHolder();
             viewHolder.nombreDia = (TextView) convertView.findViewById(R.id.lista_dia);
             viewHolder.toggleButton = (Switch) convertView.findViewById(R.id.lista_tooglebtn);
-
-
 
             convertView.setTag(viewHolder);
         }else{
@@ -77,9 +76,13 @@ public class ListaDiasAdapter extends BaseAdapter {
         viewHolder.nombreDia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(mListaDias.get(position), "arg0");
+                BusquedaTrayectoFragment busquedaTrayectoFragment = new BusquedaTrayectoFragment();
+                busquedaTrayectoFragment.setArguments(bundle);
                 FragmentManager fm = ((AppCompatActivity)mContext).getSupportFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.fragment_container, new BusquedaTrayectoFragment());
+                transaction.replace(R.id.fragment_container, busquedaTrayectoFragment);
                 transaction.addToBackStack(null).commit();
             }
         });

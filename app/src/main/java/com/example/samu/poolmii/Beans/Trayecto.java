@@ -1,26 +1,62 @@
 package com.example.samu.poolmii.Beans;
 
-import java.util.List;
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by samu on 8/07/16.
+ * Created by samu on 11/07/16.
  */
-public class Trayecto {
-   // Calendar fecha;
-    List<String> avenidas;
+public class Trayecto extends RealmObject  {
+    @PrimaryKey
+    private int id;
+    private String dia;
+    private int hora;
+    private String avenida;
 
-    public Trayecto(List<String> avenidas) {
-    //    this.fecha = fecha;
-        this.avenidas = avenidas;
+    public Trayecto() {
     }
 
-    public List<String> getAvenidas() {
-        return avenidas;
+    public Trayecto(String dia, int hora,String avenida) {
+        this.dia = dia;
+        this.hora = hora;
+        this.avenida = avenida;
     }
 
-    public void setAvenidas(List<String> avenidas) {
-        this.avenidas = avenidas;
+
+
+    public String getDia() {
+        return dia;
     }
 
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
 
+    public int getHora() {
+        return hora;
+    }
+
+    public void setHora(int hora) {
+        this.hora = hora;
+    }
+
+    public String getAvenida() {
+        return avenida;
+    }
+
+    public void setAvenida(String avenida) {
+        this.avenida = avenida;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void newId(){
+        id = Realm.getDefaultInstance().where(Trayecto.class).max("id").intValue() + 1;
+    }
 }

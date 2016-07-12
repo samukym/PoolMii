@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,52 +15,42 @@ import java.util.List;
 /**
  * Created by samu on 8/07/16.
  */
-public class ListaAvenidasAdapter extends BaseAdapter {
-    private Context mContext;
-    private List<String> mListaAvenidas;
-    private LayoutInflater mInflater;
 
-    public ListaAvenidasAdapter(List<String> avenidas, Context context){
-        this.mContext = context;
-        this.mListaAvenidas = avenidas;
-        this.mInflater = LayoutInflater.from(context);
+public class ListaAvenidasAdapter extends ArrayAdapter<String > {
 
+    private BorrarImgListener listener;
+    private List<String> avenida;
+    private Context context;
+    private LayoutInflater mLayoutInflater;
+
+
+    public ListaAvenidasAdapter(List<String> avenida, int layoutFila, int itemMuestra, Context context, BorrarImgListener listener){
+        super(context,layoutFila, itemMuestra,avenida);
+        this.listener = listener;
+        this.avenida = avenida;
+        this.context = context;
+        this.mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public int getCount() {
-        return mListaAvenidas.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mListaAvenidas.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
         if(convertView == null){
-            convertView = mInflater.inflate(R.layout.item_listadoavenidas, null);
-            viewHolder = new ViewHolder();
-
+            convertView = mLayoutInflater.inflate(R.layout.item_listadoavenidas, null);
+            viewHolder  = new ViewHolder();
             viewHolder.nombreAvenida = (TextView) convertView.findViewById(R.id.tvAvenida);
             viewHolder.imgBorrar = (ImageView) convertView.findViewById(R.id.imgBorrar);
+
             convertView.setTag(viewHolder);
-        } else{
+        }
+        else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        viewHolder.nombreAvenida.setText(mListaAvenidas.get(position));
+        viewHolder.nombreAvenida.setText(avenida.get(position));
         viewHolder.imgBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.onImgBorrar(position);
             }
         });
         return convertView;
@@ -70,4 +60,9 @@ public class ListaAvenidasAdapter extends BaseAdapter {
         TextView nombreAvenida;
         ImageView imgBorrar;
     }
+
+    public interface BorrarImgListener{
+        void onImgBorrar(int position);
+    }
 }
+
