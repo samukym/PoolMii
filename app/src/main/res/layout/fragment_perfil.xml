@@ -12,20 +12,24 @@
         android:layout_gravity="left|top"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
         android:src="@android:mipmap/sym_def_app_icon"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvNombrePeril"
-        android:layout_toRightOf="@id/imagenPerfil" />
+        android:id="@+id/tvNombrePerfil"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@id/imagenPerfil"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DNI:"
         android:id="@+id/tvDniPerfil"
-        android:layout_below="@+id/imagenPerfil"
+        android:layout_below="@id/tvNombrePerfil"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="47dp" />

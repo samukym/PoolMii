@@ -13,17 +13,19 @@ public class Trayecto extends RealmObject  {
     private String dia;
     private int hora;
     private String avenida;
+    private String conductor_id;
+    private boolean disponibilidad;
 
     public Trayecto() {
     }
 
-    public Trayecto(String dia, int hora,String avenida) {
+    public Trayecto( String dia, int hora, String conductor_id, String avenida, boolean disponibilidad) {
         this.dia = dia;
         this.hora = hora;
+        this.conductor_id = conductor_id;
         this.avenida = avenida;
+        this.disponibilidad = disponibilidad;
     }
-
-
 
     public String getDia() {
         return dia;
@@ -56,6 +58,23 @@ public class Trayecto extends RealmObject  {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getConductor_id() {
+        return conductor_id;
+    }
+
+    public void setConductor_id(String conductor_id) {
+        this.conductor_id = conductor_id;
+    }
+
+    public boolean isDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public void setDisponibilidad(boolean disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+
     public void newId(){
         id = Realm.getDefaultInstance().where(Trayecto.class).max("id").intValue() + 1;
     }
