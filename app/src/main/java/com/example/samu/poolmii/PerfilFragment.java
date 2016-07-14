@@ -52,12 +52,12 @@ public class PerfilFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
                 tvNombre.setText(usuario.getNombre());
-                tvDni.append(usuario.getDni());
+                tvDni.setText(usuario.getDni()+"");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.i("ERror", "recolectando data en getUsuario perfilfragment");
+                Log.i("ERror", "recolectando data en getUsuario perfil fragment");
             }
         });
     }

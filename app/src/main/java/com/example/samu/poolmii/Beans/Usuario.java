@@ -5,9 +5,9 @@ package com.example.samu.poolmii.Beans;
  */
 public class Usuario{
     private String nombre;
-    private String dni;
+    private Long dni;
 
-    public Usuario(String nombre,  String dni) {
+    public Usuario(String nombre,  Long dni) {
         this.nombre = nombre;
         this.dni = dni;
     }
@@ -23,11 +23,11 @@ public class Usuario{
         this.nombre = nombre;
     }
 
-    public String getDni() {
+    public Long getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(Long dni) {
         this.dni = dni;
     }
 }

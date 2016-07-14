@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
         findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logIn(etEmail.getText().toString(), etPassword.getText().toString());
+                logIn(etEmail.getText().toString()+"@aloe.ulima.edu.pe", etPassword.getText().toString());
             }
         });
 
@@ -52,6 +52,8 @@ public class Login extends AppCompatActivity {
                 FirebaseUser user =  firebaseAuth.getCurrentUser();
                 if(user != null){
                     Intent intent = new Intent(getApplicationContext(),  MainActivity.class);
+                    Toast.makeText(getApplicationContext(), "Usuario logeado con exito" + user.getUid(),
+                            Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
                 else{

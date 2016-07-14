@@ -17,7 +17,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:inputType="textEmailAddress"
-        android:hint="codigo@aloe.ulima.edu.pe" />
+        android:hint="codigo" />
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
