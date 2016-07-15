@@ -72,29 +72,21 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         dia ="lunes";
         Log.i("arg0", dia);
 
-        misTrayectos = findAllTrayectosDia();
-        //seteamos la hora de anteriores veces
-        if(misTrayectos != null) {
-            for (Trayecto t : misTrayectos) {
-                mLista.add(t.getAvenida());
-            }
-            hora = misTrayectos.get(0).getHora();
-        }
-        else{
-            hora = 0;
-        }
+        findAllTrayectosDia();
+
+
 
         //views
         View rootView = inflater.inflate(R.layout.fragment_servicio_trayecto, container, false);
         fabAnadirAv = (FloatingActionButton) rootView.findViewById(R.id.fabGuardarT_S);
         lvAvenidas = (ListView) rootView.findViewById(R.id.lvAvenidasS);
-        initAdapter();
+
         fabAnadirAv.setOnClickListener(this);
         btnAnadirAv = (Button) rootView.findViewById(R.id.btnAnadirAvS);
         btnAnadirAv.setOnClickListener(this);
         tvReloj = (TextView) rootView.findViewById(R.id.tvRelojS);
         tvReloj.setOnClickListener(this);
-        tvReloj.setText(hora+":"+"00");
+
 
         return rootView;
 
@@ -181,14 +173,28 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
 
     private List<Trayecto> findAllTrayectosDia() {
         final List<Trayecto> trayectos = new ArrayList<>();
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("servicios").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
                 for (DataSnapshot servicio : dataSnapshot.getChildren()) {
                     TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
+                    Log.i("asdf", t.toString());
                     trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1));
                 }
+                misTrayectos = trayectos;
+                //seteamos la hora de anteriores veces
+                if(misTrayectos != null) {
+                    for (Trayecto t : misTrayectos) {
+                        mLista.add(t.getAvenida());
+                    }
+                    hora = misTrayectos.get(0).getHora();
+                }
+                else{
+                    hora = 0;
+                }
 
+                tvReloj.setText(hora+":"+"00");
+                initAdapter();
             }
 
             @Override

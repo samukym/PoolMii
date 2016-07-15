@@ -1,4 +1,4 @@
-package com.example.samu.poolmii.ListadoServicios;
+package com.example.samu.poolmii.listadoServicios;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * Created by samu on 16/05/16.
  */
-public class ListadoTrayectos extends Fragment implements ListadoTrayectosFragmentInterface {
+public class ListadoTrayectos extends Fragment implements com.example.samu.poolmii.listadoServicios.ListadoTrayectosFragmentInterface {
 
     private ListView listView;
-    private ListadoTrayectosPresenter presenter;
+    private com.example.samu.poolmii.listadoServicios.ListadoTrayectosPresenter presenter;
     private int id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,7 +30,7 @@ public class ListadoTrayectos extends Fragment implements ListadoTrayectosFragme
 
 
     @Override
-    public void setPresenter(ListadoTrayectosPresenter presenter) {
+    public void setPresenter(com.example.samu.poolmii.listadoServicios.ListadoTrayectosPresenter presenter) {
         this.presenter = presenter;
     }
 

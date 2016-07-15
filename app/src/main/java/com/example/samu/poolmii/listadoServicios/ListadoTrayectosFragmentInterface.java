@@ -1,4 +1,4 @@
-package com.example.samu.poolmii.ListadoServicios;
+package com.example.samu.poolmii.listadoServicios;
 
 import com.example.samu.poolmii.Beans.Trayecto;
 

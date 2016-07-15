@@ -1,4 +1,4 @@
-package com.example.samu.poolmii.ListadoServicios;
+package com.example.samu.poolmii.listadoServicios;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Created by hquintana on 3/05/16.
  */
+
 public class ListadoTrayectosAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
@@ -63,7 +64,6 @@ public class ListadoTrayectosAdapter extends BaseAdapter {
 
         final Trayecto trayecto = trayectos.get(i);
 
-        viewHolder.tviNombreAlumno.setText(trayecto.getConductor_id());
         viewHolder.tviCodigoAlumno.setText(trayecto.getDia());
 
         ImageView imgAnadirMiembro = (ImageView) view.findViewById(R.id.imgAnadir);

@@ -1,4 +1,4 @@
-package com.example.samu.poolmii.ListadoServicios;
+package com.example.samu.poolmii.listadoServicios;
 
 /**
  * Created by samu on 16/05/16.
