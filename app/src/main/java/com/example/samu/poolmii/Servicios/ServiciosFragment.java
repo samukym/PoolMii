@@ -1,10 +1,9 @@
 package com.example.samu.poolmii.Servicios;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ public class ServiciosFragment extends Fragment implements ListaDiasAdapter.onCl
 
     private List<String> mLista;
     private ListView lvDias;
+    private onClickDiaFromFrListener listener;
 
 
     public ServiciosFragment() {
@@ -52,13 +52,26 @@ public class ServiciosFragment extends Fragment implements ListaDiasAdapter.onCl
         lista.add("sabado");
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (onClickDiaFromFrListener) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()
+                    + " debe implementar OnCharlaSelectedListener");
+        }
+    }
+
+
 
     @Override
-    public void onClickDia(int pos) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        ServicioTrayectoFragment servicioTrayectoFragment = new ServicioTrayectoFragment();
-        transaction.replace(R.id.fragment_container, servicioTrayectoFragment);
-        transaction.addToBackStack(null).commit();
+    public void onClickDia(int pos, String dia) {
+        listener.onClickDiaFromFr(2, dia);
+    }
+
+
+    public interface onClickDiaFromFrListener{
+        void onClickDiaFromFr(int pos, String dia);
     }
 }

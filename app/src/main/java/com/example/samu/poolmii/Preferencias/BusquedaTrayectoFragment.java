@@ -60,7 +60,7 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
         //BD
         realm = Realm.getDefaultInstance();
         //recupearmos el dia del fragment anterior
-        dia = ("lunes");
+        dia = getArguments().getString("arg0", "lunes");
         Log.i("arg0", dia);
 
         misTrayectos = findAllTrayectosDia();
@@ -207,6 +207,10 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
                 Log.e("copyToRealm: ", ""+error);
             }
         });
+    }
+
+    public String getDia(){
+        return dia;
     }
 
 }

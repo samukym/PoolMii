@@ -3,6 +3,7 @@ package com.example.samu.poolmii;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -12,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.samu.poolmii.Auth.Login;
+import com.example.samu.poolmii.Preferencias.BusquedaTrayectoFragment;
 import com.example.samu.poolmii.Preferencias.BusquedasFragment;
+import com.example.samu.poolmii.Servicios.ServicioTrayectoFragment;
 import com.example.samu.poolmii.Servicios.ServiciosFragment;
 import com.example.samu.poolmii.Trayectos.TrayectosBuscadosFragment;
 import com.example.samu.poolmii.listadoServicios.ListadoTrayectos;
@@ -22,7 +25,8 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BusquedasFragment.onClickDiaFromFrListener, ServiciosFragment.onClickDiaFromFrListener {
+
 
     private DrawerLayout mDrawerLayout;
 
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item){
             case R.id.menu_busquedas:
+                BusquedasFragment fragment = new BusquedasFragment();
                 transaction.replace(R.id.fragment_container, new BusquedasFragment());
                 break;
             case R.id.menu_perfil:
@@ -94,7 +99,34 @@ public class MainActivity extends AppCompatActivity {
             default:
                 transaction.replace(R.id.fragment_container, new TrayectosBuscadosFragment());
         }
-
         transaction.commit();
+    }
+
+
+
+
+    @Override
+    public void onClickDiaFromFr(int frag, String dia) {
+        Bundle bundle = new Bundle();
+        bundle.putString("arg0", dia);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        Fragment fragment=null;
+        if(frag==1){
+            fragment = new BusquedaTrayectoFragment();
+
+        }else if(frag==2){
+            fragment = new ServicioTrayectoFragment();
+        }else
+        {
+            return;
+        }
+        fragment.setArguments(bundle);
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null).commit();
+
+        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

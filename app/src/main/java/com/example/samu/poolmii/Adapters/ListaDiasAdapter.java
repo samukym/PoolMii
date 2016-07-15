@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.samu.poolmii.R;
 
@@ -65,14 +64,14 @@ public class ListaDiasAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(viewHolder.toggleButton.isChecked()){
-                    Toast.makeText(v.getContext(), "ja!", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
         viewHolder.nombreDia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClickDia(position);
+                listener.onClickDia(position, viewHolder.nombreDia.getText().toString());
             }
         });
 
@@ -81,12 +80,14 @@ public class ListaDiasAdapter extends BaseAdapter {
         return convertView;
     }
 
+
+
     private static class ViewHolder{
         TextView nombreDia;
         Switch toggleButton;
     }
 
     public interface onClickDiaListener{
-        void onClickDia(int pos);
+        void onClickDia(int pos, String dia);
     }
 }

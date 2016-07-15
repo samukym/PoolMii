@@ -1,10 +1,9 @@
 package com.example.samu.poolmii.Preferencias;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,30 +19,27 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusquedasFragment extends Fragment implements ListaDiasAdapter.onClickDiaListener {
-    private List<String> mLista;
+public class BusquedasFragment extends Fragment implements ListaDiasAdapter.onClickDiaListener{
+
     private ListView lvDias;
+    private ArrayList<String> mLista;
     private ListaDiasAdapter listaDiasAdapter;
+    private onClickDiaFromFrListener listener;
 
-
-    public BusquedasFragment() {
-        mLista = new ArrayList<>();
-        rellenarDias(mLista);
-    }
+    public BusquedasFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_busquedas, container, false);
-        listaDiasAdapter = new ListaDiasAdapter(mLista, getActivity(),this);
-        lvDias = (ListView) rootView.findViewById(R.id.listViewDias);
 
-        lvDias.setAdapter(listaDiasAdapter);
-
-
-
-
+        mLista = new ArrayList<>();
+        rellenarDias(mLista);
+        lvDias = (ListView)rootView.findViewById(R.id.listViewDiasB);
+        listaDiasAdapter = new ListaDiasAdapter(mLista, getActivity(), this);
+        lvDias.setAdapter(listaDiasAdapter)
+        ;
         return rootView;
     }
 
@@ -57,11 +53,21 @@ public class BusquedasFragment extends Fragment implements ListaDiasAdapter.onCl
     }
 
     @Override
-    public void onClickDia(int pos) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        BusquedaTrayectoFragment busquedaTrayectoFragment = new BusquedaTrayectoFragment();
-        transaction.replace(R.id.fragment_container, busquedaTrayectoFragment);
-        transaction.addToBackStack(null).commit();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (onClickDiaFromFrListener) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()
+                    + " debe implementar OnCharlaSelectedListener");
+        }
+    }
+
+    @Override
+    public void onClickDia(int pos, String dia) {
+        listener.onClickDiaFromFr(1, dia);
+    }
+    public interface onClickDiaFromFrListener{
+        void onClickDiaFromFr(int frag, String dia);
     }
 }

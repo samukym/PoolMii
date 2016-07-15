@@ -69,7 +69,7 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         //BD
         //realm = Realm.getDefaultInstance();
         //recupearmos el dia del fragment anterior
-        dia ="lunes";
+        dia = getArguments().getString("arg0", "lunes");
         Log.i("arg0", dia);
 
         findAllTrayectosDia();
@@ -179,11 +179,14 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
                 for (DataSnapshot servicio : dataSnapshot.getChildren()) {
                     TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
                     Log.i("asdf", t.toString());
-                    trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1));
+                    if(t.getDia().equals(dia)) {
+                        trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1));
+                    }
                 }
                 misTrayectos = trayectos;
                 //seteamos la hora de anteriores veces
-                if(misTrayectos != null) {
+                if(misTrayectos != null && misTrayectos.size() > 0) {
+                    Log.i("temañoa", misTrayectos.size()+"");
                     for (Trayecto t : misTrayectos) {
                         mLista.add(t.getAvenida());
                     }
