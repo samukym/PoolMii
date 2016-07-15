@@ -1,4 +1,4 @@
-package com.example.samu.poolmii;
+package com.example.samu.poolmii.Preferencias;
 
 
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.samu.poolmii.Adapters.ListaDiasAdapter;
+import com.example.samu.poolmii.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,10 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusquedasFragment extends Fragment {
+public class BusquedasFragment extends Fragment implements ListaDiasAdapter.onClickDiaListener {
     private List<String> mLista;
     private ListView lvDias;
+    private ListaDiasAdapter listaDiasAdapter;
 
 
     public BusquedasFragment() {
@@ -32,9 +34,9 @@ public class BusquedasFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_busquedas, container, false);
-
+        listaDiasAdapter = new ListaDiasAdapter(mLista, getActivity(),this);
         lvDias = (ListView) rootView.findViewById(R.id.listViewDias);
-        ListaDiasAdapter listaDiasAdapter = new ListaDiasAdapter(mLista, getActivity());
+
         lvDias.setAdapter(listaDiasAdapter);
 
 
@@ -51,5 +53,9 @@ public class BusquedasFragment extends Fragment {
         lista.add("viernes");
         lista.add("sabado");
     }
+    
+    @Override
+    public void onClickDia(int pos) {
 
+    }
 }

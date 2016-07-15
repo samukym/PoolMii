@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.samu.poolmii.Beans.Trayecto;
+import com.example.samu.poolmii.Preferencias.BusquedaTrayectoFragment;
+import com.example.samu.poolmii.Preferencias.BusquedasFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.realm.Realm;
