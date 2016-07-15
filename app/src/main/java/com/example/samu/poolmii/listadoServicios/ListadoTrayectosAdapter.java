@@ -62,8 +62,7 @@ public class ListadoTrayectosAdapter extends BaseAdapter {
         }
 
         final Trayecto trayecto = trayectos.get(i);
-
-        viewHolder.tviNombreAlumno.setText(trayecto.getConductor_id());
+        
         viewHolder.tviCodigoAlumno.setText(trayecto.getDia());
 
         ImageView imgAnadirMiembro = (ImageView) view.findViewById(R.id.imgAnadir);
