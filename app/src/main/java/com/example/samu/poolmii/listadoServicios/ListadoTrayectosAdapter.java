@@ -66,6 +66,7 @@ public class ListadoTrayectosAdapter extends BaseAdapter {
 
         viewHolder.tviCodigoAlumno.setText(trayecto.getDia());
 
+
         ImageView imgAnadirMiembro = (ImageView) view.findViewById(R.id.imgAnadir);
 
         imgAnadirMiembro.setOnClickListener(new View.OnClickListener() {
