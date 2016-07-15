@@ -2,6 +2,7 @@ package com.example.samu.poolmii.ListadoTrayectos;
 
 
 import com.example.samu.poolmii.Beans.Trayecto;
+import com.example.samu.poolmii.Beans.TrayectoFirebase;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ public class ListadoTrayectosPresenterImpl implements ListadoTrayectosPresenter 
     @Override
     public void obtenerTrayectos() {
 
-        List<Trayecto> li  = null;
+        List<TrayectoFirebase> li  = null;
 
-        Trayecto t = new Trayecto("Sunday",1800,"Bitch please", 666);
+        TrayectoFirebase t = new TrayectoFirebase("Sunday",1800,"siempre viva",true, 4,"Bitch please");
         li.add(t);
         laView.mostrarAlumnos(li);
     }
