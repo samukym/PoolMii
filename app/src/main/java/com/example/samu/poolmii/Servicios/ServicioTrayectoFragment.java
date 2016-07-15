@@ -21,8 +21,10 @@ import com.example.samu.poolmii.Beans.Trayecto;
 import com.example.samu.poolmii.Beans.TrayectoFirebase;
 import com.example.samu.poolmii.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -182,6 +184,7 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
                 .equalTo("dia", dia)
                 .findAll();
         return (resultadoTrayectos.size() > 0) ? resultadoTrayectos : null ;*/
+
         return null;
     }
     private void guardarTrayecto(){
