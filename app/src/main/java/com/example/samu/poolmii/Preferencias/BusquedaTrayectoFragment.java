@@ -1,7 +1,6 @@
 package com.example.samu.poolmii.Preferencias;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -41,8 +40,6 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
     private List<Trayecto> misTrayectos;
     private int idCounter;
 
-
-    private OnBusquedaListener mListener;
     //VIES
     private ListView lvAvenidas;
     private FloatingActionButton fabAnadirAv;
@@ -62,7 +59,8 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
         //BD
         realm = Realm.getDefaultInstance();
         //recupearmos el dia del fragment anterior
-        dia = this.getArguments().getString("arg0", "lunes");
+        dia = ("lunes");
+        Log.i("arg0", dia);
 
         misTrayectos = findAllTrayectosDia();
         //seteamos la hora de anteriores veces
@@ -90,23 +88,6 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
 
         return rootView;
 
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnBusquedaListener) {
-            mListener = (OnBusquedaListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -153,10 +134,6 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
         mAdapter.remove(mLista.get(pos));
     }
 
-
-    public interface OnBusquedaListener {
-        void onBusquedaInteraction(Trayecto trayecto);
-    }
 
     private void showInputDialog() {
 
@@ -208,7 +185,6 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
         for(String avenida : avenidasNuevas){
             Trayecto t = new Trayecto(dia, hora, avenida, idCounter);
             trayectos.add(t);
-            Log.i("loopId",t.getId()+"");
             idCounter++;
         }
         realm.executeTransactionAsync(new Realm.Transaction() {

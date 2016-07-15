@@ -11,16 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.samu.poolmii.Beans.Trayecto;
-import com.example.samu.poolmii.Preferencias.BusquedaTrayectoFragment;
 import com.example.samu.poolmii.Preferencias.BusquedasFragment;
+import com.example.samu.poolmii.Servicios.ServiciosFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 
-public class MainActivity extends AppCompatActivity implements BusquedaTrayectoFragment.OnBusquedaListener {
+public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
@@ -79,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements BusquedaTrayectoF
             case R.id.menu_perfil:
                 transaction.replace(R.id.fragment_container, new PerfilFragment());
                 break;
-            case R.id.menu_mis_rutas:
-                transaction.replace(R.id.fragment_container, new MisRutasFragment());
+            case R.id.menu_mis_servicios:
+                transaction.replace(R.id.fragment_container, new ServiciosFragment());
                 break;
             case R.id.menu_logout:
                 FirebaseAuth.getInstance().signOut();
@@ -91,10 +90,5 @@ public class MainActivity extends AppCompatActivity implements BusquedaTrayectoF
         }
 
         transaction.commit();
-    }
-
-    @Override
-    public void onBusquedaInteraction(Trayecto trayecto) {
-
     }
 }

@@ -3,6 +3,8 @@ package com.example.samu.poolmii.Preferencias;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +55,13 @@ public class BusquedasFragment extends Fragment implements ListaDiasAdapter.onCl
         lista.add("viernes");
         lista.add("sabado");
     }
-    
+
     @Override
     public void onClickDia(int pos) {
-
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        BusquedaTrayectoFragment busquedaTrayectoFragment = new BusquedaTrayectoFragment();
+        transaction.replace(R.id.fragment_container, busquedaTrayectoFragment);
+        transaction.addToBackStack(null).commit();
     }
 }
