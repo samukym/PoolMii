@@ -1,6 +1,6 @@
 package com.example.samu.poolmii.listadoServicios;
 
-import com.example.samu.poolmii.Beans.Trayecto;
+import com.example.samu.poolmii.Beans.TrayectoFirebase;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ListadoTrayectosFragmentInterface {
     public void setPresenter(ListadoTrayectosPresenter presenter);
-    public void mostrarAlumnos(List<Trayecto> trayectos);
+    public void mostrarAlumnos(List<TrayectoFirebase> trayectos);
 }

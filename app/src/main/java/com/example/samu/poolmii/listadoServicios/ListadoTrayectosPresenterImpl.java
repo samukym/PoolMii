@@ -30,6 +30,7 @@ public class ListadoTrayectosPresenterImpl implements ListadoTrayectosPresenter 
         this.laView = laView;
         mDatabase = FirebaseDatabase.getInstance().getReference("servicios");
         realm = Realm.getDefaultInstance();
+
     }
     @Override
     public void obtenerTrayectos() {
@@ -39,14 +40,13 @@ public class ListadoTrayectosPresenterImpl implements ListadoTrayectosPresenter 
                 List<TrayectoFirebase> trayectos = new ArrayList<>();
                 for (DataSnapshot servicio : dataSnapshot.getChildren()) {
                     TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
-                    Log.i("asdf", t.toString());
                     for(Trayecto trayecto : findAllTrayectosDia()){
                         if(t.isDisponibilidad() && t.getAvenida().equals(trayecto.getAvenida())){
+                            Log.i("MATCHMATCH", "  TRUEEE ");
                             trayectos.add(new TrayectoFirebase(t.getDia(), t.getHora(), t.getAvenida(), t.isDisponibilidad(), 24,t.getConductor_id()));
                         }
                     }
                 }
-
                 laView.mostrarAlumnos(trayectos);
             }
 

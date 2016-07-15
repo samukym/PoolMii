@@ -40,9 +40,6 @@ public class ServiciosFragment extends Fragment implements ListaDiasAdapter.onCl
         ListaDiasAdapter listaDiasAdapter = new ListaDiasAdapter(mLista, getActivity(), this);
         lvDias.setAdapter(listaDiasAdapter);
 
-
-
-
         return rootView;
     }
 

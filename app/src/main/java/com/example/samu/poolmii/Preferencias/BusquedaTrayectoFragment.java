@@ -56,6 +56,7 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         //BD
         realm = Realm.getDefaultInstance();
         //recupearmos el dia del fragment anterior

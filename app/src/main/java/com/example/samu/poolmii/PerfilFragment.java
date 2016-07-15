@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.samu.poolmii.Beans.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,8 +52,13 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                tvNombre.setText(usuario.getNombre());
-                tvDni.append(usuario.getDni());
+                if(usuario!=null) {
+                    tvNombre.setText(usuario.getNombre());
+                    tvDni.append(usuario.getDni());
+                }
+                else{
+                    Toast.makeText(getContext(), "problemas accediendo a red", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
