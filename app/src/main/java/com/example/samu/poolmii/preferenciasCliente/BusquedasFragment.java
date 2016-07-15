@@ -1,4 +1,4 @@
-package com.example.samu.poolmii;
+package com.example.samu.poolmii.preferenciasCliente;
 
 
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.samu.poolmii.Adapters.ListaDiasAdapter;
+import com.example.samu.poolmii.R;
 
 import java.util.ArrayList;
 import java.util.List;

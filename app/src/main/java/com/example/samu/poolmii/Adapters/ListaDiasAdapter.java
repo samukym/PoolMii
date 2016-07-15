@@ -13,7 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.samu.poolmii.BusquedaTrayectoFragment;
+import com.example.samu.poolmii.preferenciasCliente.BusquedaTrayectoFragment;
 import com.example.samu.poolmii.R;
 
 import java.util.List;

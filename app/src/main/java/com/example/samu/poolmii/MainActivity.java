@@ -13,6 +13,8 @@ import android.view.MenuItem;
 
 import com.example.samu.poolmii.Beans.Trayecto;
 import com.example.samu.poolmii.listadoServicios.ListadoTrayectos;
+import com.example.samu.poolmii.preferenciasCliente.BusquedaTrayectoFragment;
+import com.example.samu.poolmii.preferenciasCliente.BusquedasFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.realm.Realm;

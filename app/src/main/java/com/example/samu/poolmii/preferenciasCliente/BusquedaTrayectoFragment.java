@@ -1,4 +1,4 @@
-package com.example.samu.poolmii;
+package com.example.samu.poolmii.preferenciasCliente;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.samu.poolmii.Adapters.ListaAvenidasAdapter;
 import com.example.samu.poolmii.Beans.Trayecto;
+import com.example.samu.poolmii.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
