@@ -11,8 +11,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.samu.poolmii.Auth.Login;
 import com.example.samu.poolmii.Preferencias.BusquedasFragment;
 import com.example.samu.poolmii.Servicios.ServiciosFragment;
+import com.example.samu.poolmii.Trayectos.TrayectosBuscadosFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.realm.Realm;
@@ -81,12 +83,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_mis_servicios:
                 transaction.replace(R.id.fragment_container, new ServiciosFragment());
                 break;
+            case R.id.menu_mis_trayectos:
+                transaction.replace(R.id.fragment_container, new TrayectosBuscadosFragment());
+                break;
             case R.id.menu_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 break;
             default:
-                transaction.replace(R.id.fragment_container, new MisRutasFragment());
+                transaction.replace(R.id.fragment_container, new TrayectosBuscadosFragment());
         }
 
         transaction.commit();

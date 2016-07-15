@@ -7,6 +7,9 @@
             android:title="Mis servicios"
             android:id="@+id/menu_mis_servicios"/>
         <item
+            android:title="Mis trayectos"
+            android:id="@+id/menu_mis_trayectos"/>
+        <item
             android:title="Cuenta">
             <menu>
                 <item
