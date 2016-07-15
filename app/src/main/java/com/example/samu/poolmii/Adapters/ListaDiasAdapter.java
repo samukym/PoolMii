@@ -1,10 +1,6 @@
 package com.example.samu.poolmii.Adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +9,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.samu.poolmii.BusquedaTrayectoFragment;
 import com.example.samu.poolmii.R;
 
 import java.util.List;
@@ -25,12 +20,13 @@ public class ListaDiasAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> mListaDias;
     private LayoutInflater mInflater;
+    private onClickDiaListener listener;
 
-    public ListaDiasAdapter(List<String> dias, Context context){
+    public ListaDiasAdapter(List<String> dias, Context context, onClickDiaListener listener){
         this.mContext = context;
         this.mListaDias = dias;
         this.mInflater = LayoutInflater.from(context);
-
+        this.listener = listener;
     }
 
     @Override
@@ -76,14 +72,7 @@ public class ListaDiasAdapter extends BaseAdapter {
         viewHolder.nombreDia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(mListaDias.get(position), "arg0");
-                BusquedaTrayectoFragment busquedaTrayectoFragment = new BusquedaTrayectoFragment();
-                busquedaTrayectoFragment.setArguments(bundle);
-                FragmentManager fm = ((AppCompatActivity)mContext).getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.fragment_container, busquedaTrayectoFragment);
-                transaction.addToBackStack(null).commit();
+                listener.onClickDia(position);
             }
         });
 
@@ -95,5 +84,9 @@ public class ListaDiasAdapter extends BaseAdapter {
     private static class ViewHolder{
         TextView nombreDia;
         Switch toggleButton;
+    }
+
+    public interface onClickDiaListener{
+        void onClickDia(int pos);
     }
 }

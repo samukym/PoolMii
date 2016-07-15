@@ -1,4 +1,4 @@
-package com.example.samu.poolmii;
+package com.example.samu.poolmii.Auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.samu.poolmii.Beans.Usuario;
+import com.example.samu.poolmii.MainActivity;
+import com.example.samu.poolmii.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -64,7 +66,7 @@ public class Sing_up extends AppCompatActivity {
                 FirebaseUser user =  firebaseAuth.getCurrentUser();
                 if(user != null){
                     Log.i("onAuthStateChange: ", "user loggeado con: "+user.getUid());
-                    grabarUsuario(user.getUid(), etNombre.getText().toString(), Long.parseLong(etDni.getText().toString()));
+                    grabarUsuario(user.getUid(), etNombre.getText().toString(), etDni.getText().toString());
                     Intent intent = new Intent(getApplicationContext(),  MainActivity.class);
                     startActivity(intent);
                 }
@@ -115,7 +117,7 @@ public class Sing_up extends AppCompatActivity {
         if(!validateForm()){
             return;
         }
-        mAuth.createUserWithEmailAndPassword(email+"@aloe.ulima.edu.pe", password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -130,7 +132,7 @@ public class Sing_up extends AppCompatActivity {
                 });
     }
 
-    public void grabarUsuario(String id, String nombre, Long dni){
+    public void grabarUsuario(String id, String nombre, String dni){
         mDatabase.child("users").child(id).setValue(new Usuario(nombre, dni)).addOnCompleteListener(this,
                 new OnCompleteListener<Void>() {
                     @Override

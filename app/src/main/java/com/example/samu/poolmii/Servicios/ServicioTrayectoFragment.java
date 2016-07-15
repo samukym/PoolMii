@@ -1,7 +1,6 @@
-package com.example.samu.poolmii;
+package com.example.samu.poolmii.Servicios;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,14 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.samu.poolmii.Adapters.ListaAvenidasAdapter;
 import com.example.samu.poolmii.Beans.Trayecto;
+import com.example.samu.poolmii.Beans.TrayectoFirebase;
+import com.example.samu.poolmii.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,22 +32,32 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class BusquedaTrayectoFragment extends Fragment implements View.OnClickListener, ListaAvenidasAdapter.BorrarImgListener {
+public class ServicioTrayectoFragment extends Fragment implements View.OnClickListener, ListaAvenidasAdapter.BorrarImgListener {
 
     private List<String> mLista;
     private TextView tvReloj;
-    private Trayecto trayecto;
+    private Integer hora;
+    private String dia;
     private Realm realm;
+    private List<String> avenidasNuevas;
+    private List<Trayecto> misTrayectos;
+    private int idCounter;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth auth;
 
 
-    private OnBusquedaListener mListener;
-
+    //VIES
     private ListView lvAvenidas;
     private FloatingActionButton fabAnadirAv;
     private ListaAvenidasAdapter mAdapter;
+    private Button btnAnadirAv;
 
-    public BusquedaTrayectoFragment() {
+    public ServicioTrayectoFragment() {
         mLista = new ArrayList<>();
+        avenidasNuevas = new ArrayList<>();
+        idCounter = 1;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -51,54 +65,43 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
 
         //BD
-        realm = Realm.getDefaultInstance();
+        //realm = Realm.getDefaultInstance();
+        //recupearmos el dia del fragment anterior
+        dia ="lunes";
+        Log.i("arg0", dia);
 
-        //varibles que mantienen la db
-        trayecto = new Trayecto();
-        String dia = this.getArguments().getString("arg0", "lunes");
-        trayecto.setDia(dia);
-        trayecto.setHora(0);
-
-        //inflar array
-        List<Trayecto> misTrayectos = findAllTrayectosDia();
-        for (Trayecto t : misTrayectos) {
-            mLista.add(t.getAvenida());
+        misTrayectos = findAllTrayectosDia();
+        //seteamos la hora de anteriores veces
+        if(misTrayectos != null) {
+            for (Trayecto t : misTrayectos) {
+                mLista.add(t.getAvenida());
+            }
+            hora = misTrayectos.get(0).getHora();
+        }
+        else{
+            hora = 0;
         }
 
         //views
-        View rootView = inflater.inflate(R.layout.fragment_busqueda_trayecto, container, false);
-        fabAnadirAv = (FloatingActionButton) rootView.findViewById(R.id.fabAnadirAv);
-        lvAvenidas = (ListView) rootView.findViewById(R.id.lvAvenidas);
+        View rootView = inflater.inflate(R.layout.fragment_servicio_trayecto, container, false);
+        fabAnadirAv = (FloatingActionButton) rootView.findViewById(R.id.fabGuardarT_S);
+        lvAvenidas = (ListView) rootView.findViewById(R.id.lvAvenidasS);
         initAdapter();
         fabAnadirAv.setOnClickListener(this);
-        tvReloj = (TextView) rootView.findViewById(R.id.tvReloj);
+        btnAnadirAv = (Button) rootView.findViewById(R.id.btnAnadirAvS);
+        btnAnadirAv.setOnClickListener(this);
+        tvReloj = (TextView) rootView.findViewById(R.id.tvRelojS);
         tvReloj.setOnClickListener(this);
+        tvReloj.setText(hora+":"+"00");
 
         return rootView;
 
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnBusquedaListener) {
-            mListener = (OnBusquedaListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvReloj:
+            case R.id.tvRelojS:
                 // Process to get Current Time
                 final Calendar c = Calendar.getInstance();
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -107,32 +110,38 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
                 // Launch Time Picker Dialog
                 TimePickerDialog tpd = new TimePickerDialog(getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
-
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 // Display Selected time in textbox
                                 tvReloj.setText(new String(hourOfDay + ":" + "00"));
-                                trayecto.setHora(hourOfDay);
+                                hora = hourOfDay;
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
                 break;
-            case R.id.fabAnadirAv:
-                showInputDialog();
+            case R.id.fabGuardarT_S:
+                guardarTrayecto();
                 break;
+            case R.id.btnAnadirAvS:
+                showInputDialog();
         }
     }
 
     @Override
     public void onImgBorrar(int pos) {
+
+        int posAvNuevas = (pos) - (mLista.size() - avenidasNuevas.size());
+        if(posAvNuevas >= 0){
+            avenidasNuevas.remove(posAvNuevas);
+        }else{
+           // realm.beginTransaction();
+           // misTrayectos.get(pos).deleteFromRealm();
+           // realm.commitTransaction();
+        }
         mAdapter.remove(mLista.get(pos));
     }
 
-
-    public interface OnBusquedaListener {
-        void onBusquedaInteraction(Trayecto trayecto);
-    }
 
     private void showInputDialog() {
 
@@ -148,26 +157,8 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mAdapter.add(etDialog.getText().toString());
-                        trayecto.setAvenida(etDialog.getText().toString());
-                        realm.executeTransactionAsync(new Realm.Transaction() {
-
-                            @Override
-                            public void execute(Realm realm) {
-                                trayecto.newId();
-                                realm.copyToRealm(trayecto);
-                                Log.i("dia", trayecto.getDia());
-                            }
-                        }, new Realm.Transaction.OnSuccess() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.makeText(getContext(), "exito en isnertar trayecto", Toast.LENGTH_LONG).show();
-                            }
-                        }, new Realm.Transaction.OnError() {
-                            @Override
-                            public void onError(Throwable error) {
-                                Toast.makeText(getContext(), "fallo en insertar trayecto "+error, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        avenidasNuevas.add(etDialog.getText().toString());
+                        idCounter++;
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -187,10 +178,25 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
     }
 
     private RealmResults<Trayecto> findAllTrayectosDia() {
-        RealmResults<Trayecto> resultadoTrayectos = realm.where(Trayecto.class)
-                .equalTo("dia", trayecto.getDia())
+        /*RealmResults<Trayecto> resultadoTrayectos = realm.where(Trayecto.class)
+                .equalTo("dia", dia)
                 .findAll();
-        return resultadoTrayectos;
+        return (resultadoTrayectos.size() > 0) ? resultadoTrayectos : null ;*/
+        return null;
+    }
+    private void guardarTrayecto(){
+        //final List<Trayecto> trayectos = new ArrayList<>();
+        //RealmResults results = Realm.getDefaultInstance().where(Trayecto.class).findAll();
+        //autoID
+       // idCounter = (results.size() > 0) ? Realm.getDefaultInstance().where(Trayecto.class).max("id").intValue()+ idCounter : 0;
+
+        for(String avenida : avenidasNuevas) {
+            TrayectoFirebase t = new TrayectoFirebase(dia, hora, avenida, true, 100, auth.getCurrentUser().getUid()     );
+            mDatabase.child("servicios").push().setValue(t);
+            idCounter++;
+        }
+
+
     }
 
 }

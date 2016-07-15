@@ -1,4 +1,4 @@
-package com.example.samu.poolmii;
+package com.example.samu.poolmii.Auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.samu.poolmii.MainActivity;
+import com.example.samu.poolmii.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,7 +42,7 @@ public class Login extends AppCompatActivity {
         findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logIn(etEmail.getText().toString()+"@aloe.ulima.edu.pe", etPassword.getText().toString());
+                logIn(etEmail.getText().toString(), etPassword.getText().toString());
             }
         });
 
@@ -52,8 +54,6 @@ public class Login extends AppCompatActivity {
                 FirebaseUser user =  firebaseAuth.getCurrentUser();
                 if(user != null){
                     Intent intent = new Intent(getApplicationContext(),  MainActivity.class);
-                    Toast.makeText(getApplicationContext(), "Usuario logeado con exito" + user.getUid(),
-                            Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
                 else{
