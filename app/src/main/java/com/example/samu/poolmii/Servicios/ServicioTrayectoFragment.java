@@ -184,9 +184,9 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                for(DataSnapshot servicio : dataSnapshot.getChildren()){
+                for (DataSnapshot servicio : dataSnapshot.getChildren()) {
                     TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
-                    trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1  ));
+                    trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1));
                 }
 
             }
