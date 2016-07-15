@@ -4,18 +4,16 @@ package com.example.samu.poolmii.Beans;
  * Created by samu on 15/07/16.
  */
 public class TrayectoFirebase {
-    private int id;
     private String dia;
     private int hora;
     private String avenida;
     private boolean disponibilidad;
     private int precio;
-    private int conductor_id;
+    private String conductor_id;
 
     public TrayectoFirebase(){}
 
-    public TrayectoFirebase(int id, String dia, int hora, String avenida, boolean disponibilidad, int precio, int conductor_id) {
-        this.id = id;
+    public TrayectoFirebase(String dia, int hora, String avenida, boolean disponibilidad, int precio, String conductor_id) {
         this.dia = dia;
         this.hora = hora;
         this.avenida = avenida;
@@ -24,13 +22,7 @@ public class TrayectoFirebase {
         this.conductor_id = conductor_id;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getDia() {
         return dia;
@@ -72,11 +64,11 @@ public class TrayectoFirebase {
         this.precio = precio;
     }
 
-    public int getConductor_id() {
+    public String getConductor_id() {
         return conductor_id;
     }
 
-    public void setConductor_id(int conductor_id) {
+    public void setConductor_id(String conductor_id) {
         this.conductor_id = conductor_id;
     }
 }

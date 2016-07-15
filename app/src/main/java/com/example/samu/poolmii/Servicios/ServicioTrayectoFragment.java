@@ -18,7 +18,11 @@ import android.widget.TimePicker;
 
 import com.example.samu.poolmii.Adapters.ListaAvenidasAdapter;
 import com.example.samu.poolmii.Beans.Trayecto;
+import com.example.samu.poolmii.Beans.TrayectoFirebase;
 import com.example.samu.poolmii.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +42,9 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
     private List<String> avenidasNuevas;
     private List<Trayecto> misTrayectos;
     private int idCounter;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth auth;
+
 
     //VIES
     private ListView lvAvenidas;
@@ -49,6 +56,8 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         mLista = new ArrayList<>();
         avenidasNuevas = new ArrayList<>();
         idCounter = 1;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -176,35 +185,18 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         return null;
     }
     private void guardarTrayecto(){
-        final List<Trayecto> trayectos = new ArrayList<>();
+        //final List<Trayecto> trayectos = new ArrayList<>();
         //RealmResults results = Realm.getDefaultInstance().where(Trayecto.class).findAll();
         //autoID
        // idCounter = (results.size() > 0) ? Realm.getDefaultInstance().where(Trayecto.class).max("id").intValue()+ idCounter : 0;
 
-        for(String avenida : avenidasNuevas){
-            Trayecto t = new Trayecto(dia, hora, avenida, idCounter);
-            trayectos.add(t);
+        for(String avenida : avenidasNuevas) {
+            TrayectoFirebase t = new TrayectoFirebase(dia, hora, avenida, true, 100, auth.getCurrentUser().getUid()     );
+            mDatabase.child("servicios").push().setValue(t);
             idCounter++;
         }
-       /* realm.executeTransactionAsync(new Realm.Transaction() {
 
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealm(trayectos);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.i("INSERCION: ","SUCCESS");
-                idCounter = 1;
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                Toast.makeText(getContext(), "No se pudieron guardar los cambios", Toast.LENGTH_LONG).show();
-                Log.e("copyToRealm: ", ""+error);
-            }
-        });*/
+
     }
 
 }
