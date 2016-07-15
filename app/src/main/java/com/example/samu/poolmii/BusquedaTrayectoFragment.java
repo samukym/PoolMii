@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,18 +33,25 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
 
     private List<String> mLista;
     private TextView tvReloj;
-    private Trayecto trayecto;
+    private Integer hora;
+    private String dia;
     private Realm realm;
+    private List<String> avenidasNuevas;
+    private List<Trayecto> misTrayectos;
+    private int idCounter;
 
 
     private OnBusquedaListener mListener;
-
+    //VIES
     private ListView lvAvenidas;
     private FloatingActionButton fabAnadirAv;
     private ListaAvenidasAdapter mAdapter;
+    private Button btnAnadirAv;
 
     public BusquedaTrayectoFragment() {
         mLista = new ArrayList<>();
+        avenidasNuevas = new ArrayList<>();
+        idCounter = 1;
     }
 
     @Override
@@ -52,27 +60,32 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
 
         //BD
         realm = Realm.getDefaultInstance();
+        //recupearmos el dia del fragment anterior
+        dia = this.getArguments().getString("arg0", "lunes");
 
-        //varibles que mantienen la db
-        trayecto = new Trayecto();
-        String dia = this.getArguments().getString("arg0", "lunes");
-        trayecto.setDia(dia);
-        trayecto.setHora(0);
-
-        //inflar array
-        List<Trayecto> misTrayectos = findAllTrayectosDia();
-        for (Trayecto t : misTrayectos) {
-            mLista.add(t.getAvenida());
+        misTrayectos = findAllTrayectosDia();
+        //seteamos la hora de anteriores veces
+        if(misTrayectos != null) {
+            for (Trayecto t : misTrayectos) {
+                mLista.add(t.getAvenida());
+            }
+            hora = misTrayectos.get(0).getHora();
+        }
+        else{
+            hora = 0;
         }
 
         //views
         View rootView = inflater.inflate(R.layout.fragment_busqueda_trayecto, container, false);
-        fabAnadirAv = (FloatingActionButton) rootView.findViewById(R.id.fabAnadirAv);
+        fabAnadirAv = (FloatingActionButton) rootView.findViewById(R.id.fabGuardarT);
         lvAvenidas = (ListView) rootView.findViewById(R.id.lvAvenidas);
         initAdapter();
         fabAnadirAv.setOnClickListener(this);
+        btnAnadirAv = (Button) rootView.findViewById(R.id.btnAnadirAv);
+        btnAnadirAv.setOnClickListener(this);
         tvReloj = (TextView) rootView.findViewById(R.id.tvReloj);
         tvReloj.setOnClickListener(this);
+        tvReloj.setText(hora+":"+"00");
 
         return rootView;
 
@@ -107,25 +120,35 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
                 // Launch Time Picker Dialog
                 TimePickerDialog tpd = new TimePickerDialog(getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
-
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 // Display Selected time in textbox
                                 tvReloj.setText(new String(hourOfDay + ":" + "00"));
-                                trayecto.setHora(hourOfDay);
+                                hora = hourOfDay;
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
                 break;
-            case R.id.fabAnadirAv:
-                showInputDialog();
+            case R.id.fabGuardarT:
+                guardarTrayecto();
                 break;
+            case R.id.btnAnadirAv:
+                showInputDialog();
         }
     }
 
     @Override
     public void onImgBorrar(int pos) {
+
+        int posAvNuevas = (pos) - (mLista.size() - avenidasNuevas.size());
+        if(posAvNuevas >= 0){
+            avenidasNuevas.remove(posAvNuevas);
+        }else{
+            realm.beginTransaction();
+            misTrayectos.get(pos).deleteFromRealm();
+            realm.commitTransaction();
+        }
         mAdapter.remove(mLista.get(pos));
     }
 
@@ -148,26 +171,8 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mAdapter.add(etDialog.getText().toString());
-                        trayecto.setAvenida(etDialog.getText().toString());
-                        realm.executeTransactionAsync(new Realm.Transaction() {
-
-                            @Override
-                            public void execute(Realm realm) {
-                                trayecto.newId();
-                                realm.copyToRealm(trayecto);
-                                Log.i("dia", trayecto.getDia());
-                            }
-                        }, new Realm.Transaction.OnSuccess() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.makeText(getContext(), "exito en isnertar trayecto", Toast.LENGTH_LONG).show();
-                            }
-                        }, new Realm.Transaction.OnError() {
-                            @Override
-                            public void onError(Throwable error) {
-                                Toast.makeText(getContext(), "fallo en insertar trayecto "+error, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        avenidasNuevas.add(etDialog.getText().toString());
+                        idCounter++;
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -188,9 +193,42 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
 
     private RealmResults<Trayecto> findAllTrayectosDia() {
         RealmResults<Trayecto> resultadoTrayectos = realm.where(Trayecto.class)
-                .equalTo("dia", trayecto.getDia())
+                .equalTo("dia", dia)
                 .findAll();
-        return resultadoTrayectos;
+        return (resultadoTrayectos.size() > 0) ? resultadoTrayectos : null ;
+
+    }
+    private void guardarTrayecto(){
+        final List<Trayecto> trayectos = new ArrayList<>();
+        RealmResults results = Realm.getDefaultInstance().where(Trayecto.class).findAll();
+        //autoID
+        idCounter = (results.size() > 0) ? Realm.getDefaultInstance().where(Trayecto.class).max("id").intValue()+ idCounter : 0;
+
+        for(String avenida : avenidasNuevas){
+            Trayecto t = new Trayecto(dia, hora, avenida, idCounter);
+            trayectos.add(t);
+            Log.i("loopId",t.getId()+"");
+            idCounter++;
+        }
+        realm.executeTransactionAsync(new Realm.Transaction() {
+
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(trayectos);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.i("INSERCION: ","SUCCESS");
+                idCounter = 1;
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Toast.makeText(getContext(), "No se pudieron guardar los cambios", Toast.LENGTH_LONG).show();
+                Log.e("copyToRealm: ", ""+error);
+            }
+        });
     }
 
 }

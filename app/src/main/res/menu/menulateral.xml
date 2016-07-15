@@ -4,11 +4,8 @@
             android:title="@string/busquedas"
             android:id="@+id/menu_busquedas"/>
         <item
-            android:title="@string/servicios"
-            android:id="@+id/menu_servicios"/>
-        <item
-            android:title="Mis viajes"
-            android:id="@+id/menu_mis_viajes"/>
+            android:title="Mis rutas"
+            android:id="@+id/menu_mis_rutas"/>
         <item
             android:title="Cuenta">
             <menu>

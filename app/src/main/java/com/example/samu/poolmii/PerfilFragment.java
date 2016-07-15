@@ -37,7 +37,7 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
-        tvNombre = (TextView) rootView.findViewById(R.id.tvNombrePerfil);
+        tvNombre = (TextView) rootView.findViewById(R.id.tvNombrePeril);
         tvDni = (TextView) rootView.findViewById(R.id.tvDniPerfil);
 
         setUsuario(auth.getCurrentUser().getUid());
@@ -52,12 +52,12 @@ public class PerfilFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
                 tvNombre.setText(usuario.getNombre());
-                tvDni.setText(usuario.getDni()+"");
+                tvDni.append(usuario.getDni());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.i("ERror", "recolectando data en getUsuario perfil fragment");
+                Log.i("ERror", "recolectando data en getUsuario perfilfragment");
             }
         });
     }
