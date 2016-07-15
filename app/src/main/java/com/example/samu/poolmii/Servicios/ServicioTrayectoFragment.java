@@ -21,15 +21,17 @@ import com.example.samu.poolmii.Beans.Trayecto;
 import com.example.samu.poolmii.Beans.TrayectoFirebase;
 import com.example.samu.poolmii.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 
 public class ServicioTrayectoFragment extends Fragment implements View.OnClickListener, ListaAvenidasAdapter.BorrarImgListener {
@@ -177,12 +179,24 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         lvAvenidas.setAdapter(mAdapter);
     }
 
-    private RealmResults<Trayecto> findAllTrayectosDia() {
-        /*RealmResults<Trayecto> resultadoTrayectos = realm.where(Trayecto.class)
-                .equalTo("dia", dia)
-                .findAll();
-        return (resultadoTrayectos.size() > 0) ? resultadoTrayectos : null ;*/
-        return null;
+    private List<Trayecto> findAllTrayectosDia() {
+        final List<Trayecto> trayectos = new ArrayList<>();
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                for(DataSnapshot servicio : dataSnapshot.getChildren()){
+                    TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
+                    trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1  ));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return trayectos;
     }
     private void guardarTrayecto(){
         //final List<Trayecto> trayectos = new ArrayList<>();

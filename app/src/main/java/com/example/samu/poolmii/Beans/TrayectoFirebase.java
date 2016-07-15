@@ -71,4 +71,16 @@ public class TrayectoFirebase {
     public void setConductor_id(String conductor_id) {
         this.conductor_id = conductor_id;
     }
+
+    @Override
+    public String toString() {
+        return "TrayectoFirebase{" +
+                "dia='" + dia + '\'' +
+                ", hora=" + hora +
+                ", avenida='" + avenida + '\'' +
+                ", disponibilidad=" + disponibilidad +
+                ", precio=" + precio +
+                ", conductor_id='" + conductor_id + '\'' +
+                '}';
+    }
 }

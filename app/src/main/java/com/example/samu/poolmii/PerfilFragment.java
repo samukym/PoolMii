@@ -37,7 +37,7 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
-        tvNombre = (TextView) rootView.findViewById(R.id.tvNombrePeril);
+        tvNombre = (TextView) rootView.findViewById(R.id.tvNombrePerfil);
         tvDni = (TextView) rootView.findViewById(R.id.tvDniPerfil);
 
         setUsuario(auth.getCurrentUser().getUid());
