@@ -17,7 +17,6 @@ import com.example.samu.poolmii.Preferencias.BusquedaTrayectoFragment;
 import com.example.samu.poolmii.Preferencias.BusquedasFragment;
 import com.example.samu.poolmii.Servicios.ServicioTrayectoFragment;
 import com.example.samu.poolmii.Servicios.ServiciosFragment;
-import com.example.samu.poolmii.Trayectos.TrayectosBuscadosFragment;
 import com.example.samu.poolmii.listadoServicios.ListadoTrayectos;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements BusquedasFragment
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 break;
             default:
-                transaction.replace(R.id.fragment_container, new TrayectosBuscadosFragment());
+                //transaction.replace(R.id.fragment_container, new ListadoTrayectos());
         }
         transaction.commit();
     }

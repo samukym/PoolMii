@@ -41,7 +41,7 @@ public class ListadoTrayectosPresenterImpl implements ListadoTrayectosPresenter 
                 for (DataSnapshot servicio : dataSnapshot.getChildren()) {
                     TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
                     for(Trayecto trayecto : findAllTrayectosDia()){
-                        Log.i("hora: "+trayecto.getHora(), t.getHora()+"");
+                        Log.i("hora: "+trayecto.getHora(), t.getHora()+"" );
                         if(t.isDisponibilidad() && t.getAvenida().equals(trayecto.getAvenida())
                                 && (t.getHora() == trayecto.getHora())){
                             Log.i("MATCHMATCH", "  TRUEEE ");
@@ -63,7 +63,7 @@ public class ListadoTrayectosPresenterImpl implements ListadoTrayectosPresenter 
     private RealmResults<Trayecto> findAllTrayectosDia() {
         RealmResults<Trayecto> resultadoTrayectos = realm.where(Trayecto.class)
                 .findAll();
-        return (resultadoTrayectos.size() > 0) ? resultadoTrayectos : null ;
+        return resultadoTrayectos;
 
     }
 }

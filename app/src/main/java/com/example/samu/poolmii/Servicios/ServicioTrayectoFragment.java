@@ -75,7 +75,6 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         findAllTrayectosDia();
 
 
-
         //views
         View rootView = inflater.inflate(R.layout.fragment_servicio_trayecto, container, false);
         fabAnadirAv = (FloatingActionButton) rootView.findViewById(R.id.fabGuardarT_S);
@@ -126,19 +125,18 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
     public void onImgBorrar(int pos) {
 
         int posAvNuevas = (pos) - (mLista.size() - avenidasNuevas.size());
-        if(posAvNuevas >= 0){
+        if (posAvNuevas >= 0) {
             avenidasNuevas.remove(posAvNuevas);
-        }else{
-           // realm.beginTransaction();
-           // misTrayectos.get(pos).deleteFromRealm();
-           // realm.commitTransaction();
+        } else {
+            // realm.beginTransaction();
+            // misTrayectos.get(pos).deleteFromRealm();
+            // realm.commitTransaction();
         }
         mAdapter.remove(mLista.get(pos));
     }
 
 
     private void showInputDialog() {
-
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
@@ -150,6 +148,7 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.i("Dialogo", "DIALOGO VACIO: " + etDialog.getText().toString());
                         mAdapter.add(etDialog.getText().toString());
                         avenidasNuevas.add(etDialog.getText().toString());
                         idCounter++;
@@ -171,7 +170,7 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
         lvAvenidas.setAdapter(mAdapter);
     }
 
-    private List<Trayecto> findAllTrayectosDia() {
+    private void findAllTrayectosDia() {
         final List<Trayecto> trayectos = new ArrayList<>();
         mDatabase.child("servicios").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -179,24 +178,23 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
                 for (DataSnapshot servicio : dataSnapshot.getChildren()) {
                     TrayectoFirebase t = servicio.getValue(TrayectoFirebase.class);
                     Log.i("asdf", t.toString());
-                    if(t.getDia().equals(dia)) {
+                    if (t.getDia().equals(dia) && t.getConductor_id().equals(auth.getCurrentUser().getUid())) {
                         trayectos.add(new Trayecto(t.getDia(), t.getHora(), t.getAvenida(), -1));
                     }
                 }
                 misTrayectos = trayectos;
                 //seteamos la hora de anteriores veces
-                if(misTrayectos != null && misTrayectos.size() > 0) {
-                    Log.i("temañoa", misTrayectos.size()+"");
+                if (misTrayectos != null && misTrayectos.size() > 0) {
+                    Log.i("temañoa", misTrayectos.size() + "");
                     for (Trayecto t : misTrayectos) {
                         mLista.add(t.getAvenida());
                     }
                     hora = misTrayectos.get(0).getHora();
-                }
-                else{
+                } else {
                     hora = 0;
                 }
 
-                tvReloj.setText(hora+":"+"00");
+                tvReloj.setText(hora + ":" + "00");
                 initAdapter();
             }
 
@@ -205,16 +203,11 @@ public class ServicioTrayectoFragment extends Fragment implements View.OnClickLi
 
             }
         });
-        return trayectos;
     }
-    private void guardarTrayecto(){
-        //final List<Trayecto> trayectos = new ArrayList<>();
-        //RealmResults results = Realm.getDefaultInstance().where(Trayecto.class).findAll();
-        //autoID
-       // idCounter = (results.size() > 0) ? Realm.getDefaultInstance().where(Trayecto.class).max("id").intValue()+ idCounter : 0;
 
-        for(String avenida : avenidasNuevas) {
-            TrayectoFirebase t = new TrayectoFirebase(dia, hora, avenida, true, 100, auth.getCurrentUser().getUid()     );
+    private void guardarTrayecto() {
+        for (String avenida : avenidasNuevas) {
+            TrayectoFirebase t = new TrayectoFirebase(dia, hora, avenida, true, 100, auth.getCurrentUser().getUid());
             mDatabase.child("servicios").push().setValue(t);
             idCounter++;
         }

@@ -65,7 +65,7 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
 
         misTrayectos = findAllTrayectosDia();
         //seteamos la hora de anteriores veces
-        if(misTrayectos != null) {
+        if(misTrayectos.size() > 0) {
             for (Trayecto t : misTrayectos) {
                 mLista.add(t.getAvenida());
             }
@@ -174,7 +174,7 @@ public class BusquedaTrayectoFragment extends Fragment implements View.OnClickLi
         RealmResults<Trayecto> resultadoTrayectos = realm.where(Trayecto.class)
                 .equalTo("dia", dia)
                 .findAll();
-        return (resultadoTrayectos.size() > 0) ? resultadoTrayectos : null ;
+        return resultadoTrayectos;
 
     }
     private void guardarTrayecto(){
